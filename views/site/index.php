@@ -4,7 +4,7 @@
 use yii\helpers\Url;  // this is for Class URL ******
 use yii\web\View;
 $this->registerJsFile(
-    'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js',
+    '@web/js/underscore.js/1.8.3/underscore-min.js',
     ['depends' => [\yii\web\JqueryAsset::className()]],
     'underscore'
 );
@@ -31,7 +31,7 @@ $this->registerJsFile(
 //);
 $this->title = 'House 3D';
 ?>
-<div class="site-index" style="height: <script> print(window.screen.height)</script>">
+<div class="site-index">
     <div class="col-md-2 col-lg-2">
         <div>
             <div id="house-list">
@@ -91,7 +91,7 @@ $this->title = 'House 3D';
         shopinfo: {name:'shop name',address:'shop address',tel:'020-38844660',point:''},
         edit: true,
         statistics: '21543',
-        dm_host: 'https://720-cdn3.3vjia.com/Panorama/public3.2.0',
+        dm_host: 'http://localhost/house3d-player',
         is_planetoid: true,
         PANORAMACDNURL: "http://localhost/house3d-api/web/Resource/get/3vj-render.3vjia.com",
         CDNPARAM: "https://720-cdn3.3vjia.com",
