@@ -18,12 +18,17 @@ $this->registerJsFile(
     [View::POS_READY],
     '3vjia'
 );
-$this->registerJs(
-    'embedpano({ xml: "UpFile_Panorama/C00000022/201712/S08460301_830.xml", id: "dm_mnmnh", initvars: initvars, target: "pano", html5: "only", mobilescale: 1.0, passQueryParameters: true });',
-    View::POS_READY,
-    'embedpano'
-);
-
+//$js_embeded_code = <<<JS
+//    console.log("befor");
+//    embedpano({ xml: "'".$xml_link."'", id: "dm_mnmnh", initvars: initvars, target: "pano", html5: "only", mobilescale: 1.0, passQueryParameters: true });
+//    console.log("after");
+//JS;
+//echo $js_embeded_code;
+//$this->registerJs(
+//    $js_embeded_code,
+//    View::POS_READY,
+//    'embedpano'
+//);
 $this->title = 'House 3D';
 ?>
 <div class="site-index" style="height: <script> print(window.screen.height)</script>">
@@ -34,7 +39,7 @@ $this->title = 'House 3D';
         </div>
     </div>
 
-    <div class="body-content col-md-10 col-lg-10" style="height: 700px">
+    <div id='pano-container' class="body-content col-md-10 col-lg-10" style="height: 700px">
         <div id="Loadingbar" style="background:#3399cc; z-index:999; width:100%; height:100%; position:absolute; display:none">
             <div id="Loadingbar2" style="background:-webkit-gradient(radial,100 100,0,100 100,100,from(#3399cc),to(#3399cc)); z-index:1; width:200px; height:200px; position:absolute; left:50%; top:40%; margin-left:-100px; margin-top:-100px; vertical-align:middle; text-align:center;">
                 <img id="Loadingbar3" src="https://720-cdn3.3vjia.com/UpFile//C00000022/Admin/LoginSetting_360LoadingLogo/201612/LoginSetting/7a658dcf8db74bc98f33cadff62837f7.png" style="width:200px; position: relative; top:50px" />
@@ -88,7 +93,7 @@ $this->title = 'House 3D';
         statistics: '21543',
         dm_host: 'https://720-cdn3.3vjia.com/Panorama/public3.2.0',
         is_planetoid: true,
-        PANORAMACDNURL: "https://3vj-render.3vjia.com",
+        PANORAMACDNURL: "http://localhost/house3d-api/web/Resource/get/3vj-render.3vjia.com",
         CDNPARAM: "https://720-cdn3.3vjia.com",
         MediaHost: 'https://720-cdn3.3vjia.com',
         extend_xml:''
