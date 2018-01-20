@@ -6,8 +6,8 @@ var h3d_btn_image_click_handler = function(e) {
     removepano("pano");
     $('#pano-container').append(h_pano_t());
     initvars.mapurl = "#";//$(e.currentTarget).data('mapurl');
-    $(e.currentTarget).addClass('active');
     if(active_item !== undefined)active_item.removeClass('active');
+    $(e.currentTarget).addClass('active');
     active_item=$(e.currentTarget);
     embedpano(
         {
