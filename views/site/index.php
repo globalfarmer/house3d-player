@@ -5,47 +5,34 @@ use yii\helpers\Url;  // this is for Class URL ******
 use yii\web\View;
 $this->registerJsFile(
     '@web/js/underscore.js/1.8.3/underscore-min.js',
-    ['depends' => [\yii\web\JqueryAsset::className()]],
+    [View::POS_READY, 'depends' => [\yii\web\JqueryAsset::className()]],
     'underscore'
 );
 $this->registerJsFile(
     '@web/js/house_list.js',
-    [View::POS_READY, 'depends' => ['underscore', \yii\web\JqueryAsset::className()]],
-    "house-list"
+    [View::POS_READY, 'depends' => ['underscore']],
+    'house-list'
 );
 $this->registerJsFile(
     '@web/js/3vjia.js',
-    [View::POS_READY],
+    [View::POS_READY, 'depends' => [\yii\web\JqueryAsset::className()]],
     '3vjia'
 );
-//$js_embeded_code = <<<JS
-//    console.log("befor");
-//    embedpano({ xml: "'".$xml_link."'", id: "dm_mnmnh", initvars: initvars, target: "pano", html5: "only", mobilescale: 1.0, passQueryParameters: true });
-//    console.log("after");
-//JS;
-//echo $js_embeded_code;
-//$this->registerJs(
-//    $js_embeded_code,
-//    View::POS_READY,
-//    'embedpano'
-//);
 $this->title = 'House 3D';
 ?>
 <div class="site-index">
-    <div class="col-md-2 col-lg-2">
-        <div>
-            <div id="house-list">
-            </div>
+    <div id='house-list-container' class="style-1 pre-scrollable" style="position: fixed;top: 0;left: 0;width: 200px;z-index: 1;padding: none;">
+        <div id="house-list" style="list-style-type: none;">
         </div>
     </div>
 
-    <div id='pano-container' class="body-content col-md-10 col-lg-10" style="height: 700px">
+    <div id='pano-container' class="body-content" style="padding: none;z-index: -1">
         <div id="Loadingbar" style="background:#3399cc; z-index:999; width:100%; height:100%; position:absolute; display:none">
             <div id="Loadingbar2" style="background:-webkit-gradient(radial,100 100,0,100 100,100,from(#3399cc),to(#3399cc)); z-index:1; width:200px; height:200px; position:absolute; left:50%; top:40%; margin-left:-100px; margin-top:-100px; vertical-align:middle; text-align:center;">
                 <img id="Loadingbar3" src="https://720-cdn3.3vjia.com/UpFile//C00000022/Admin/LoginSetting_360LoadingLogo/201612/LoginSetting/7a658dcf8db74bc98f33cadff62837f7.png" style="width:200px; position: relative; top:50px" />
                 <img id="Loadingbar4" src="https://720-cdn3.3vjia.com/UpFile//C00000022/Admin/LoginSetting_360LoadingBar/201610/LoginSetting/65b6dcf264764000a96a5e067b91c043.gif" style="width:200px; position: relative; top:80px" />
             </div>
-            <div style="position:absolute; font-family: 宋体; font-size: 12px;  color: #FFF;opacity:0.4; top:100%;  left:50%; width:350px; margin-left:-140px; margin-top:-30px;">Copyright 2012-2018 3vjia.com , All Rights Reserved</div>
+            <div style="position:absolute; font-family: 宋体; font-size: 12px;  color: #FFF;opacity:0.4; top:100%;  left:50%; width:350px; margin-left:-140px; margin-top:-30px;">Copyright, All Rights Reserved</div>
         </div>
         <div id="Moldel" style="background-image:url(https://720-cdn3.3vjia.com/Panorama/public/background.jpg);z-index:999;display:none">
             <div class="vr_header">

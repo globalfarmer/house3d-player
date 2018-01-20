@@ -1,11 +1,14 @@
-var h_item_t = _.template("<a href='#' data-xml-link='<%-xml_link %>' data-mapurl='<%- mapurl %>' data-id='<%- id %>' class='h3d-btn-image'><img src='<%- thumbnail %>' alt='house image' class='img-thumbnail'></a>");
+var h_item_t = _.template("<img src='<%- thumbnail %>' data-xml-link='<%-xml_link %>' data-mapurl='<%- mapurl %>' data-id='<%- id %>' alt='house image' class='img-thumbnail h3d-btn-image'>");
 var h_pano_t = _.template('<div id="pano" style="width:100%;height:100%;"><noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;"><td><div style="text-align:center;">错误:<br /><br />Javascript没有开启<br /><br /></div></td></tr></table></noscript> </div>');
-$.get('http://localhost/house3d-api/testdata/scheme720.php',{page: 1},
-    (data) => {
-        arr_apis = [];
-        data.split("\n").forEach((curValue) => {
+var active_item = undefined;
+var current_page = 1;
+var load_page = function(_page) {
+    $.get('http://localhost/house3d-api/testdata/scheme720.php',{page: _page},
+        (data) => {
+            arr_apis = [];
+            data.split("\n").forEach((curValue) => {
                 if(curValue.indexOf('/3vj-scheme.3vjia.com//') > -1)
-                    arr_apis.push({thumbnail: curValue, id: "#", xml_link: '#', mapurl: '#'});
+                arr_apis.push({thumbnail: curValue, id: "#", mapurl: '#'});
                 if(curValue.indexOf('.xml') > -1) {
                     last_element = curValue.split('/').pop();
                     arr_apis[arr_apis.length-1].id = last_element.split('_')[0];
@@ -17,23 +20,50 @@ $.get('http://localhost/house3d-api/testdata/scheme720.php',{page: 1},
             }
         );
         console.log(arr_apis);
-        arr_apis.forEach((curValue) => $('#house-list').append(h_item_t(curValue)));
+        arr_apis.forEach((curValue) => { if(curValue.hasOwnProperty('xml_link')) $('#house-list').append(h_item_t(curValue))});
+
         $(".h3d-btn-image").click((e) => {
-           removepano("pano");
-           $('#pano-container').append(h_pano_t());
-           initvars.mapurl = $(e.currentTarget).data('mapurl');
-           embedpano(
-               {
-                   xml: $(e.currentTarget).data('xml-link'),
-                   id: "dm_mnmnh",
-                   initvars: initvars,
-                   target: "pano",
-                   html5: "only",
-                   mobilescale: 1.0,
-                   passQueryParameters: true
-               });
+            window.event = e;
+        removepano("pano");
+        $('#pano-container').append(h_pano_t());
+        initvars.mapurl = $(e.currentTarget).data('mapurl');
+        $(e.currentTarget).addClass('active');
+        if(active_item !== undefined)active_item.removeClass('active');
+        active_item=$(e.currentTarget);
+        embedpano(
+            {
+                xml: $(e.currentTarget).data('xml-link'),
+                id: "dm_mnmnh",
+                initvars: initvars,
+                target: "pano",
+                html5: "only",
+                mobilescale: 1.0,
+                passQueryParameters: true
+            });
         });
-    },
-    'text'
+    }, 'text'
 );
+}
+load_page(current_page);
+var init = function() {
+    $('#pano-container').css('height', $(window).height());
+    $('#pano-container').css('width', $(window).width());
+    $('#house-list-container').css('max-height', $(window).height());
+    $('#house-list-container').scroll(() => {
+       if($('#house-list-container').height() + $('#house-list-container').scrollTop() == $('#house-list').height() ) {
+           current_page++;
+           load_page(current_page);
+       }
+    });
+    $(window).resize(() => {
+        $('#pano-container').css('height', $(window).height());
+        $('#pano-container').css('width', $(window).width());
+        $('#house-list-container').css('max-height', $(window).height());
+    });
+    $("body").css('overflow', 'hidden');
+    window.console.log = function() {};
+}
+init();
+
+
 
