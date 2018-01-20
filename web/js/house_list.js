@@ -1,7 +1,37 @@
-var h_item_t = _.template("<img src='<%- thumbnail %>' data-xml-link='<%-xml_link %>' data-mapurl='<%- mapurl %>' data-id='<%- id %>' alt='house image' class='img-thumbnail h3d-btn-image'>");
+var h_item_t = _.template("<img src='<%- thumbnail %>' data-xml-link='<%-xml_link %>' data-mapurl='<%- mapurl %>' data-id='<%- id %>' alt='house image' class='img-thumbnail h3d-btn-image' onclick='h3d_btn_image_click_handler(event)'>");
 var h_pano_t = _.template('<div id="pano" style="width:100%;height:100%;"><noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;"><td><div style="text-align:center;">Error:<br /><br />Javascript is not open<br /><br /></div></td></tr></table></noscript> </div>');
 var active_item = undefined;
 var current_page = 1;
+var h3d_btn_image_click_handler = function(e) {
+    removepano("pano");
+    $('#pano-container').append(h_pano_t());
+    initvars.mapurl = "#";//$(e.currentTarget).data('mapurl');
+    $(e.currentTarget).addClass('active');
+    if(active_item !== undefined)active_item.removeClass('active');
+    active_item=$(e.currentTarget);
+    embedpano(
+        {
+            xml: $(e.currentTarget).data('xml-link'),
+            id: "dm_mnmnh",
+            initvars: initvars,
+            target: "pano",
+            html5: "only",
+            mobilescale: 1.0,
+            passQueryParameters: true,
+            onready: function() {
+                setTimeout(() => {
+                    features = [];
+                $('div').each((idx, e) => {if($(e).height()==70&&$(e).width()==70)features.push(e)})
+                features.pop();
+                $(features).remove();
+                trash = [];
+                $('div').each((idx, e) => {if($(e).height()==27.7778&&$(e).width()==80)trash.push(e)})
+                $(trash).remove();
+            }, 1500);
+
+            }
+        });
+}
 var load_page = function(_page) {
     $.get('http://localhost/house3d-api/testdata/scheme720.php',{page: _page},
         (data) => {
@@ -20,40 +50,8 @@ var load_page = function(_page) {
             }
         );
         console.log(arr_apis);
-        arr_apis.forEach((curValue) => { if(curValue.hasOwnProperty('xml_link')) $('#house-list').append(h_item_t(curValue))});
-
-        $(".h3d-btn-image").click((e) => {
-            window.event = e;
-        removepano("pano");
-        $('#pano-container').append(h_pano_t());
-        initvars.mapurl = "#";
-        $(e.currentTarget).addClass('active');
-        if(active_item !== undefined)active_item.removeClass('active');
-        active_item=$(e.currentTarget);
-        embedpano(
-            {
-                xml: $(e.currentTarget).data('xml-link'),
-                id: "dm_mnmnh",
-                initvars: initvars,
-                target: "pano",
-                html5: "only",
-                mobilescale: 1.0,
-                passQueryParameters: true,
-                onready: function() {
-                    setTimeout(() => {
-                        features = [];
-                        $('div').each((idx, e) => {if($(e).height()==70&&$(e).width()==70)features.push(e)})
-                        features.pop();
-                        $(features).remove();
-                        trash = [];
-                        $('div').each((idx, e) => {if($(e).height()==27.7778&&$(e).width()==80)trash.push(e)})
-                        $(trash).remove();
-                    }, 1500);
-
-                }
-            });
-
-        });
+        var h_item;
+        arr_apis.forEach((curValue) => {if(curValue.hasOwnProperty('xml_link'))$('#house-list').append(h_item_t(curValue));});
     }, 'text'
 );
 }
