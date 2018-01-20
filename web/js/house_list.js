@@ -1,5 +1,5 @@
 var h_item_t = _.template("<img src='<%- thumbnail %>' data-xml-link='<%-xml_link %>' data-mapurl='<%- mapurl %>' data-id='<%- id %>' alt='house image' class='img-thumbnail h3d-btn-image'>");
-var h_pano_t = _.template('<div id="pano" style="width:100%;height:100%;"><noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;"><td><div style="text-align:center;">错误:<br /><br />Javascript没有开启<br /><br /></div></td></tr></table></noscript> </div>');
+var h_pano_t = _.template('<div id="pano" style="width:100%;height:100%;"><noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;"><td><div style="text-align:center;">Error:<br /><br />Javascript is not open<br /><br /></div></td></tr></table></noscript> </div>');
 var active_item = undefined;
 var current_page = 1;
 var load_page = function(_page) {
@@ -26,7 +26,7 @@ var load_page = function(_page) {
             window.event = e;
         removepano("pano");
         $('#pano-container').append(h_pano_t());
-        initvars.mapurl = $(e.currentTarget).data('mapurl');
+        initvars.mapurl = "#";
         $(e.currentTarget).addClass('active');
         if(active_item !== undefined)active_item.removeClass('active');
         active_item=$(e.currentTarget);
@@ -38,8 +38,21 @@ var load_page = function(_page) {
                 target: "pano",
                 html5: "only",
                 mobilescale: 1.0,
-                passQueryParameters: true
+                passQueryParameters: true,
+                onready: function() {
+                    setTimeout(() => {
+                        features = [];
+                        $('div').each((idx, e) => {if($(e).height()==70&&$(e).width()==70)features.push(e)})
+                        features.pop();
+                        $(features).remove();
+                        trash = [];
+                        $('div').each((idx, e) => {if($(e).height()==27.7778&&$(e).width()==80)trash.push(e)})
+                        $(trash).remove();
+                    }, 1500);
+
+                }
             });
+
         });
     }, 'text'
 );
@@ -50,9 +63,10 @@ var init = function() {
     $('#pano-container').css('width', $(window).width());
     $('#house-list-container').css('max-height', $(window).height());
     $('#house-list-container').scroll(() => {
-       if($('#house-list-container').height() + $('#house-list-container').scrollTop() == $('#house-list').height() ) {
+       if($('#house-list-container').height() + $('#house-list-container').scrollTop() + 1 > $('#house-list').height() ) {
            current_page++;
            load_page(current_page);
+           console.log('loading page ' + current_page + '....');
        }
     });
     $(window).resize(() => {

@@ -20,30 +20,24 @@
 
 
 
-	<style name="link_001" url="link_ico_30.png" edge="center" onclick="dm_openurl(get(link_url));" 
-		onloaded="add_hotspot_text(get(title),left,20,0);"
-		onloaded.mobile="add_hotspot_text(get(title),left,0,0);"/>
+	<style name="link_001" url="link_ico_30.png" edge="center" onclick="dm_openurl(get(link_url));"/>
 	<!--
 
 	-->
-	<style name="goods_001" url="goods_ico_30.png" edge="center" onclick="show_googs(get(title),get(description),get(thumburl),get(link));" 
+	<style name="goods_001" url="goods_ico_30.png" edge="center"
 		onloaded="
 			delayedcall(0.2, set(rotate,0); );
 			delayedcall(0.5, set(rotate,0); );
 			delayedcall(1.0, set(rotate,0); );
-			add_hotspot_text(get(title),left,20,0);
 		"
 		onloaded.mobile="
 			delayedcall(0.2, set(rotate,0); );
 			delayedcall(0.5, set(rotate,0); );
 			delayedcall(1.0, set(rotate,0); );
-			add_hotspot_text(get(title),left,0,0);
 		"/>
 	
 
 	<style name="replace_001" url="replace_ico.png" edge="bottom" scale.mobile="0.5" scale.normal="0.3" 
-		onloaded="add_hotspot_text(get(title),bottom,0,-50);"
-		onloaded.mobile="add_hotspot_text(get(title),bottom,0,-30);"
 		/>
 	
 	<action name="dm_openurl" type="Javascript"><![CDATA[
@@ -61,15 +55,13 @@
 		delayedcall(0.2, set(rotate,0); );
 		delayedcall(0.5, set(rotate,0); );
 		delayedcall(1.0, set(rotate,0); );
-		if(scene[get(nextscene)].title,
+		if("room",
 			if(isdynamic,
 				do_crop_animation(128,128, %1);
 				,
 			);
 			if(device.mobile,
-				add_hotspot_text(get(scene[get(nextscene)].title),top,0,10);
 				,
-				add_hotspot_text(get(scene[get(nextscene)].title),top,0,20);
 			);
 			load_scene();
 			,
@@ -111,7 +103,7 @@
 		txtadd(hotspot_text,'hotspot_text_',get(name));
 		if(hotspot[get(hotspot_text)],,
 			addhotspot(get(hotspot_text));
-			
+
 			set(hotspot[get(hotspot_text)].visible,false);
 			set(hotspot[get(hotspot_text)].alpha,0);
 
@@ -120,7 +112,7 @@
 			set(hotspot[get(hotspot_text)].type,text);
 			set(hotspot[get(hotspot_text)].ath,get(ath));
 			set(hotspot[get(hotspot_text)].atv,get(atv));
-			
+
 			set(hotspot[get(hotspot_text)].ox,%3);
 			set(hotspot[get(hotspot_text)].oy,%4);
 			set(hotspot[get(hotspot_text)].wordwrap,flase);
@@ -141,7 +133,7 @@
 			set(hotspot[get(hotspot_text)].html,%1);
 			set(hotspot[get(hotspot_text)].edge,%2);
 			txtadd(hotspot[get(hotspot_text)].onclick,'callwith(hotspot[',get(name),'], onclick);');
-			
+
 			set(hotspot[get(hotspot_text)].onloaded,
 				delayedcall(0.2, set(rotate,0); );
 				delayedcall(0.5, set(rotate,0);set(visible,true); );
@@ -149,9 +141,9 @@
 
 			);
 
-			
+
 		);
-		
+
 	</action>
 
 	<!--切换场景-->
