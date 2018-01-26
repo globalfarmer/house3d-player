@@ -64,6 +64,11 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function action720player()
+    {
+        return $this->render('720player');
+    }
+
     /**
      * Login action.
      *
