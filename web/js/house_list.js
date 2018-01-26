@@ -33,7 +33,7 @@ var h3d_btn_image_click_handler = function(e) {
         });
 }
 var load_page = function(_page) {
-    $.get('http://localhost/house3d-api/testdata/scheme720.php',{page: _page},
+    $.get(window.location.origin + '/house3d-api/testdata/scheme720.php',{page: _page},
         (data) => {
             arr_apis = [];
             data.split("\n").forEach((curValue) => {
@@ -44,7 +44,7 @@ var load_page = function(_page) {
                     arr_apis[arr_apis.length-1].id = last_element.split('_')[0];
                     arr_apis[arr_apis.length-1].xml_link = curValue;
                 }
-                if(curValue.indexOf('http://localhost/house3d-api/web/Resource/get/720-cdn3.3vjia.com/upfile')>-1) {
+                if(curValue.indexOf('/house3d-api/web/Resource/get/720-cdn3.3vjia.com/upfile')>-1) {
                     arr_apis[arr_apis.length-1].mapurl = curValue;
                 }
             }

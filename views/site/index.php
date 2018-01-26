@@ -74,9 +74,9 @@ $this->title = 'House 3D';
         // shopinfo: {name:'shop name',address:'shop address',tel:'020-38844660',point:''},
         edit: true,
         statistics: '21543',
-        dm_host: 'http://localhost/house3d-player',
+        dm_host: window.location.origin + '/house3d-player',
         is_planetoid: true,
-        PANORAMACDNURL: "http://localhost/house3d-api/web/Resource/get/3vj-render.3vjia.com",
+        PANORAMACDNURL: window.location.origin + "/house3d-api/web/Resource/get/3vj-render.3vjia.com",
         // CDNPARAM: "https://720-cdn3.3vjia.com",
         // MediaHost: 'https://720-cdn3.3vjia.com',
         extend_xml:''
